@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<sub-flow name="implementation-for-postSub_Flow" doc:id="56835347-4a1c-4c31-b348-a7b0d169a5d0" >
+		<db:insert doc:name="Insert" doc:id="3553776c-c569-45bf-828b-8c214d361e42" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into notes (title,content,createdAt)values(:title,:content,:createdAt);]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+             
+                "title": payload.title,
+                "content": payload.content,
+                "createdAt": now() as String {format: "dd-MM-yyyy hh:mm:ss"}
+
+              }]]]></db:input-parameters>
+		</db:insert>
+		
+		<ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "a new note added to the database"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+	</sub-flow>
+</mule>

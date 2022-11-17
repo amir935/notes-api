@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<configuration doc:name="Configuration" doc:id="e850f036-6486-4502-ab54-0b8f2a71c760" defaultErrorHandler-ref="global-error-handlingError_Handler" />
+	
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="5fb056d7-dde6-4def-be8f-9944fb1aaf72" >
+		<db:my-sql-connection host="${secure::db.host}" port="${secure::db.port}" user="${secure::db.username}" password="${secure::db.password}" database="${secure::db.schema}" />
+	</db:config>
+	<apikit:config outboundHeadersMapName="${secure::router.outboundHeadersMapName}" httpStatusVarName="${secure::router.httpStatus}" doc:name="Router" doc:id="e12def1f-2b0b-40bc-a5cd-d73dfb21af4e" name="craft-note-config" api="resource::067cb518-53b8-4fb9-963b-5496e8c48915:craft-note:1.0.0:raml:zip:craft-note.raml"/>
+	<http:listener-config name="craft-note-httpListenerConfig" doc:name="HTTP Listener config" doc:id="fe90c7ee-013f-45f7-9f1a-be3f6fabc0f5" >
+		<http:listener-connection host="${secure::http.host}" port="${secure::http.port}" />
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="94ff1c9e-c4ba-476f-9823-4776669c66d1" file="config\dev.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="5d1de734-a110-40f8-9e36-8b7993d64b52" file="config\dev-secure.yaml" key="mulesoft" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+</mule>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="implementation-for-putSub_Flow" doc:id="c886cdde-5b92-4d8d-8827-065c31706777" >
+		<db:update doc:name="Update" doc:id="d0f0d993-cc4c-48d5-b052-7bff5aa8f119" config-ref="Database_Config">
+			<db:sql ><![CDATA[update notes set title=:title,content=:content,updatedAt=:updatedAt where id=:id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+                 "id": attributes.uriParams.noteId,
+                "title": payload.title,
+                "content": payload.content,
+                "updatedAt": now() as String {format: "dd-MM-yyyy hh:mm:ss"}
+                
+                }]]]></db:input-parameters>
+		</db:update>
+		<ee:transform doc:name="Transform Message" doc:id="331af248-a604-45ec-9584-e1fb89fccb60" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "a previous note by Id  updated  in the database"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

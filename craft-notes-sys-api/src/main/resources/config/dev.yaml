@@ -1,0 +1,17 @@
+http:
+     port: "8081"
+     path: "/api/*"
+     host: "localhost"
+db:
+    host: "localhost"
+    port: "3306"
+    username: "root"
+    password: "root"
+    schema: "notes" 
+    
+router:
+       configName: "craft-note-config"
+       name: "craft-Note"
+       httpStatus: "httpStatus"
+       outboundHeadersMapName: "outboundHeadersMapName"
+       

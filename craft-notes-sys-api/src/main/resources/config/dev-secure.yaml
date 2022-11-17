@@ -1,0 +1,17 @@
+http:
+     port: "![7lfNJW6/zOc=]"
+     path: "![6Wfi5/5c1Bs=]"
+     host: "![sn0/bkKC48z/NTUjMAQSqg==]"
+db:
+    host: "![sn0/bkKC48z/NTUjMAQSqg==]"
+    port: "![GsCqbJEvqpI=]"
+    username: "![kGUrMSl4q+g=]"
+    password: "![kGUrMSl4q+g=]"
+    schema: "![eXlWNkcP3Tc=]"
+
+router:
+       configName: "![r2jLeWb+Ns6zW03XgCW//nOYFNFtVLqd]"
+       name: "![2Vz/4NchfhOnJHwd6boJAg==]"
+       httpStatus: "![6qKi3bBdoWZu8XC+bnMtlw==]"
+       outboundHeadersMapName: "![1ALofJqOWBhViea2S/k1vmzZVzeV1jhd]"
+
